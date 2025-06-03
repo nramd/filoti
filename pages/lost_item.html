@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FILOTI - Student Lost and Found Application</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom scrollbar for sidebar */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 2px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+      }
+
+      /* Smooth transitions */
+      .sidebar-overlay {
+        transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+      }
+      .sidebar {
+        transition: transform 0.3s ease-in-out;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 font-sans">
+    <!-- Desktop Navigation -->
+    <nav
+      class="hidden lg:flex bg-white shadow-sm px-6 py-4 items-center justify-between sticky top-0 z-40"
+    >
+      <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-2">
+          <div
+            class="w-10 h-10 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center overflow-hidden"
+          >
+            <img
+              src="img/logo_filoti.png"
+              alt="Logo"
+              class="w-full h-full object-cover"
+            />
+          </div>
+
+          <div>
+            <h1 class="text-xl font-bold text-gray-800">FILOTI</h1>
+            <p class="text-sm text-gray-600">
+              Student Lost and Found Application
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center space-x-6">
+        <!-- Search Icon -->
+        <button class="px-2 py-2 bg-gray-100 rounded-full">
+          <svg
+            class="w-5 h-5 text-gray-600 mr-20"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </button>
+
+        <a href="#" class="text-blue-600">Lost Items</a>
+        <a
+          href="find_item.html"
+          class="text-gray-700 hover:text-blue-600 transition-colors"
+          >Found Items</a
+        >
+        <a href="#" class="text-gray-700 hover:text-blue-600 transition-colors"
+          >History</a
+        >
+        <a href="report_item.html" class="text-gray-700 hover:text-blue-600 transition-colors"
+          >Report Item</a
+        >
+        <a href="notification.html" class="text-gray-700 hover:text-blue-600 transition-colors"
+          >Notification</a
+        >
+        <button
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          Login
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Header -->
+    <header
+      class="lg:hidden bg-white shadow-sm px-4 py-3 flex items-center justify-between sticky top-0 z-40"
+    >
+      <div class="flex items-center space-x-3">
+        <div
+          class="w-8 h-8 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center"
+        >
+          <img
+            src="img/logo_filoti.png"
+            alt="Logo"
+            class="w-full h-full object-cover rounded-lg"
+          />
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-gray-800">FILOTI</h1>
+          <p class="text-xs text-gray-600">
+            Student Lost and Found Application
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <!-- Search Icon -->
+        <button class="p-2 bg-gray-100 rounded-full">
+          <svg
+            class="w-5 h-5 text-gray-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </button>
+
+        <!-- Hamburger Menu Button -->
+        <button id="menu-toggle" class="p-2 bg-orange-500 rounded-full">
+          <svg
+            class="w-5 h-5 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div
+      id="sidebar-overlay"
+      class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-50 opacity-0 invisible sidebar-overlay"
+    >
+      <!-- Sidebar -->
+      <div
+        id="sidebar"
+        class="sidebar fixed right-0 top-0 h-full w-80 bg-white shadow-lg transform translate-x-full custom-scrollbar overflow-y-auto"
+      >
+        <div class="p-6">
+          <!-- Close button -->
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold text-gray-800">Menu</h2>
+            <button
+              id="close-sidebar"
+              class="p-2 hover:bg-gray-100 rounded-full"
+            >
+              <svg
+                class="w-6 h-6 text-gray-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Navigation Links -->
+          <nav class="space-y-4">
+            <a
+              href="#"
+              class="block py-3 px-4 text-blue-600 bg-blue-50 rounded-lg"
+            >
+              Lost Items
+            </a>
+            <a
+              href="find_item.html"
+              class="block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors"
+            >
+              Found Items
+            </a>
+            <a
+              href="#"
+              class="block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors"
+            >
+              History
+            </a>
+            <a
+              href="report_item.html"
+              class="block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors"
+            >
+              Report Item
+            </a>
+            <a
+              href="notification.html"
+              class="block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors"
+            >
+              Notification
+            </a>
+            <div class="pt-4 border-t border-gray-200">
+              <button
+                class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Login
+              </button>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6 max-w-6xl">
+      <!-- Breadcrumb -->
+      <div class="mb-6">
+        <p class="text-sm text-gray-500">> Lost Item</p>
+      </div>
+
+      <!-- Lost Items List -->
+      <div id="lost-items-container" class="space-y-4">
+        <!-- Items will be dynamically generated here -->
+      </div>
+    </main>
+
+    <script>
+      // Data untuk lost items
+      const lostItems = [
+        {
+          id: 1,
+          name: "Sarah Putri Maharani",
+          initials: "SP",
+          avatarColor: "bg-orange-500",
+          timeAgo: "5 hr. ago",
+          location: "Edutech",
+          miniDescription: "Kehilangan dompet kulit coklat di sekitar area gkm",
+          description: "Kehilangan dompet kulit coklat tua di sekitar area Gedung Kreatifitas Mahasiswa (GKM) lantai 3. Dompet berukuran sedang dengan tekstur kulit asli dan warna coklat tua bekas lecet kecil di bagian pojok kanan bawah.",
+          image: "img/dompet_coklat.png",
+          detailsLink: "lost_item_details.html",
+          hasDetailsLink: true
+        },
+        {
+          id: 2,
+          name: "Agung Putra",
+          initials: "👑",
+          avatarColor: "bg-yellow-600",
+          timeAgo: "5 hr. ago",
+          location: "GKM",
+          miniDescription: "Kehilangan dompet kulit hitam di sekitar area gkm",
+          image: "img/dompet_coklat.png",
+          detailsLink: "#",
+          hasDetailsLink: false
+        },
+        {
+          id: 3,
+          name: "Harry Kane",
+          initials: "HK",
+          avatarColor: "bg-gray-600",
+          timeAgo: "7 hr. ago",
+          location: "Edutech",
+          miniDescription: "Kehilangan helm fullface bewarna putih di sekitar area parkir edutech",
+          image: "img/dompet_coklat.png",
+          detailsLink: "#",
+          hasDetailsLink: false
+        },
+        {
+          id: 4,
+          name: "Lamine Yamal",
+          initials: "LY",
+          avatarColor: "bg-gray-400",
+          timeAgo: "8 hr. ago",
+          location: "Gedung F",
+          miniDescription: "Kehilangan jam tangan di sekitar area kelas gedung f2",
+          image: "img/dompet_coklat.png",
+          detailsLink: "#",
+          hasDetailsLink: false
+        },
+        {
+          id: 5,
+          name: "Firman Utina",
+          initials: "FU",
+          avatarColor: "bg-orange-600",
+          timeAgo: "8 hr. ago",
+          location: "Musholla",
+          miniDescription: "Kehilangan dompet kulit hitam di sekitar area musholla filkom",
+          image: "img/dompet_coklat.png",
+          detailsLink: "#",
+          hasDetailsLink: false
+        }
+      ];
+
+      // Function untuk membuat HTML item
+      function createItemLost(item) {
+        const buttonHTML = item.hasDetailsLink 
+          ? `<a href="${item.detailsLink}" class="bg-blue-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-800 transition-colors inline-block text-center">View Details</a>`
+          : `<button class="bg-blue-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-800 transition-colors">View Details</button>`;
+
+        return `
+          <div class="bg-white rounded-lg shadow-sm p-4 lg:p-6 flex flex-col lg:flex-row items-start lg:items-center space-y-4 lg:space-y-0 lg:space-x-6">
+            <div class="flex items-start space-x-3 flex-1">
+              <!-- Avatar -->
+              <div class="w-10 h-10 ${item.avatarColor} rounded-full flex items-center justify-center flex-shrink-0">
+                <span class="text-white font-semibold text-sm">${item.initials}</span>
+              </div>
+
+              <!-- Content -->
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-center gap-2 mb-1">
+                  <h3 class="font-semibold text-gray-800">${item.name}</h3>
+                  <span class="text-sm text-gray-500">• ${item.timeAgo}</span>
+                  <span class="text-sm text-gray-500">• ${item.location}</span>
+                </div>
+                <p class="text-gray-600 text-sm mb-3">${item.miniDescription}</p>
+                ${buttonHTML}
+              </div>
+            </div>
+
+            <!-- Image -->
+            <div class="w-48 lg:w-24 h-36 lg:h-16 flex-shrink-0 m-12">
+              <img src="${item.image}" alt="" class="w-full h-full object-cover rounded-lg bg-orange-200" />
+            </div>
+          </div>
+        `;
+      }
+
+      // Function untuk render semua items
+      function renderLostItems() {
+        const container = document.getElementById('lost-items-container');
+        container.innerHTML = lostItems.map(item => createItemLost(item)).join('');
+      }
+
+      // Mobile sidebar functionality
+      const menuToggle = document.getElementById("menu-toggle");
+      const closeSidebar = document.getElementById("close-sidebar");
+      const sidebarOverlay = document.getElementById("sidebar-overlay");
+      const sidebar = document.getElementById("sidebar");
+
+      function openSidebar() {
+        sidebarOverlay.classList.remove("opacity-0", "invisible");
+        sidebarOverlay.classList.add("opacity-100", "visible");
+        sidebar.classList.remove("translate-x-full");
+        sidebar.classList.add("translate-x-0");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeSidebarFunc() {
+        sidebarOverlay.classList.add("opacity-0", "invisible");
+        sidebarOverlay.classList.remove("opacity-100", "visible");
+        sidebar.classList.add("translate-x-full");
+        sidebar.classList.remove("translate-x-0");
+        document.body.style.overflow = "auto";
+      }
+
+      menuToggle.addEventListener("click", openSidebar);
+      closeSidebar.addEventListener("click", closeSidebarFunc);
+
+      // Close sidebar when clicking on overlay
+      sidebarOverlay.addEventListener("click", (e) => {
+        if (e.target === sidebarOverlay) {
+          closeSidebarFunc();
+        }
+      });
+
+      // Close sidebar on escape key
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeSidebarFunc();
+        }
+      });
+
+      // Handle responsive behavior
+      function handleResize() {
+        if (window.innerWidth >= 1024) {
+          // lg breakpoint
+          closeSidebarFunc();
+        }
+      }
+
+      window.addEventListener("resize", handleResize);
+
+      // Initial setup
+      document.addEventListener('DOMContentLoaded', function() {
+        renderLostItems();
+        handleResize();
+      });
+    </script>
+  </body>
+</html>
