@@ -32,12 +32,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const itemsToDisplay = loadItems('foundItems', foundItems);
 
     // Ganti variabel yang di-loop menjadi `itemsToDisplay`
-    if (typeof itemsToDisplay !== 'undefined' && document.getElementById("lost-items-container")) {
-        const container = document.getElementById("lost-items-container");
+    if (typeof itemsToDisplay !== 'undefined' && document.getElementById("found-items-container")) {
+        const container = document.getElementById("found-items-container");
         container.innerHTML = ''; 
     
         itemsToDisplay.forEach((item) => {
-        container.innerHTML += createItemLost(item);
+        container.innerHTML += createItemFound(item);
         });
     }
     
