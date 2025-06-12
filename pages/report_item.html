@@ -6,34 +6,13 @@
     <title>FILOTI - Report Item</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* Custom scrollbar for sidebar */
-      .custom-scrollbar::-webkit-scrollbar {
-        width: 4px;
+      .file-upload-area {
+        border: 2px dashed #d1d5db;
       }
-      .custom-scrollbar::-webkit-scrollbar-track {
-        background: #f1f1f1;
-      }
-      .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #c1c1c1;
-        border-radius: 2px;
-      }
-      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #a8a8a8;
-      }
-
-      /* Smooth transitions */
-      .sidebar-overlay {
-        transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-      }
-      .sidebar {
-        transition: transform 0.3s ease-in-out;
-      }
-
-      /* Dropdown custom styles */
       .dropdown-toggle::after {
         content: "";
         position: absolute;
-        right: 16px;
+        right: 1rem;
         top: 50%;
         transform: translateY(-50%);
         width: 0;
@@ -41,240 +20,19 @@
         border-left: 5px solid transparent;
         border-right: 5px solid transparent;
         border-top: 5px solid white;
-        pointer-events: none;
-      }
-
-      /* File upload area */
-      .file-upload-area {
-        border: 2px dashed #d1d5db;
-        transition: all 0.3s ease;
-      }
-      .file-upload-area:hover {
-        border-color: #9ca3af;
-        background-color: #f9fafb;
-      }
-      .file-upload-area.dragover {
-        border-color: #3b82f6;
-        background-color: #eff6ff;
       }
     </style>
   </head>
   <body class="bg-gray-50 font-sans">
-    <!-- Desktop Navigation  -->
-    <nav
-      class="hidden lg:flex bg-white shadow-sm px-6 py-4 items-center justify-between sticky top-0 z-40"
-    >
-      <div class="flex items-center space-x-4">
-        <div class="flex items-center space-x-2">
-          <div
-            class="w-10 h-10 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center overflow-hidden"
-          >
-            <img
-              src="img/logo_filoti.png"
-              alt="Logo"
-              class="w-full h-full object-cover"
-            />
-          </div>
+    <div id="navbar-container"></div>
 
-          <div>
-            <h1 class="text-xl font-bold text-gray-800">FILOTI</h1>
-            <p class="text-sm text-gray-600">
-              Student Lost and Found Application
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="flex items-center space-x-6">
-        <!-- Search Icon -->
-        <button class="px-2 py-2 bg-gray-100 rounded-full">
-          <svg
-            class="w-5 h-5 text-gray-600 mr-20"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-        </button>
-
-        <a
-          href="lost_item.html"
-          class="text-gray-700 hover:text-blue-600 transition-colors"
-          >Lost Items</a
-        >
-        <a
-          href="find_item.html"
-          class="text-gray-700 hover:text-blue-600 transition-colors"
-          >Found Items</a
-        >
-        <a href="#" class="text-gray-700 hover:text-blue-600 transition-colors"
-          >History</a
-        >
-        <a href="#" class="text-blue-600">Report Item</a>
-        <a href="notification.html" class="text-gray-700 hover:text-blue-600 transition-colors"
-          >Notification</a
-        >
-        <button
-          class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          Login
-        </button>
-      </div>
-    </nav>
-
-    <!-- Mobile Header -->
-    <header
-      class="lg:hidden bg-white shadow-sm px-4 py-3 flex items-center justify-between sticky top-0 z-40"
-    >
-      <div class="flex items-center space-x-3">
-        <div
-          class="w-8 h-8 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center"
-        >
-          <img
-            src="img/logo_filoti.png"
-            alt="Logo"
-            class="w-full h-full object-cover rounded-lg"
-          />
-        </div>
-        <div>
-          <h1 class="text-lg font-bold text-gray-800">FILOTI</h1>
-          <p class="text-xs text-gray-600">
-            Student Lost and Found Application
-          </p>
-        </div>
-      </div>
-
-      <div class="flex items-center space-x-3">
-        <!-- Search Icon -->
-        <button class="p-2 bg-gray-100 rounded-full">
-          <svg
-            class="w-5 h-5 text-gray-600"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-        </button>
-
-        <!-- Hamburger Menu Button -->
-        <button id="menu-toggle" class="p-2 bg-orange-500 rounded-full">
-          <svg
-            class="w-5 h-5 text-white"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button>
-      </div>
-    </header>
-
-    <!-- Mobile Sidebar Overlay -->
-    <div
-      id="sidebar-overlay"
-      class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-50 opacity-0 invisible sidebar-overlay"
-    >
-      <!-- Sidebar -->
-      <div
-        id="sidebar"
-        class="sidebar fixed right-0 top-0 h-full w-80 bg-white shadow-lg transform translate-x-full custom-scrollbar overflow-y-auto"
-      >
-        <div class="p-6">
-          <!-- Close button -->
-          <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold text-gray-800">Menu</h2>
-            <button
-              id="close-sidebar"
-              class="p-2 hover:bg-gray-100 rounded-full"
-            >
-              <svg
-                class="w-6 h-6 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-
-          <!-- Navigation Links -->
-          <nav class="space-y-4">
-            <a
-              href="lost_item.html"
-              class="block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors"
-            >
-              Lost Items
-            </a>
-            <a
-              href="find_item.html"
-              class="block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors"
-            >
-              Found Items
-            </a>
-            <a
-              href="#"
-              class="block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors"
-            >
-              History
-            </a>
-            <a
-              href="report_item.html"
-              class="block py-3 px-4 text-blue-600 bg-blue-50 rounded-lg"
-            >
-              Report Item
-            </a>
-            <a
-              href="notification.html"
-              class="block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors"
-            >
-              Notification
-            </a>
-            <div class="pt-4 border-t border-gray-200">
-              <button
-                class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Login
-              </button>
-            </div>
-          </nav>
-        </div>
-      </div>
-    </div>
-
-    <!-- Main Content -->
     <main class="container mx-auto px-4 py-6 max-w-2xl">
-      <!-- Breadcrumb -->
       <div class="mb-6">
         <p class="text-sm text-gray-500">> Report Item</p>
       </div>
 
-      <!-- Report Form -->
       <div class="bg-white rounded-lg shadow-sm p-6">
         <form id="report-form" class="space-y-6">
-          <!-- Report Type -->
           <div>
             <label class="block text-sm font-medium text-gray-800 mb-2"
               >Report Type</label
@@ -282,31 +40,27 @@
             <div class="relative">
               <select
                 id="report-type"
-                class="w-full bg-blue-900 text-white px-4 py-3 rounded-lg appearance-none dropdown-toggle cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="w-full bg-blue-900 text-white px-4 py-3 rounded-lg appearance-none dropdown-toggle cursor-pointer"
               >
                 <option value="" disabled selected>Select an Option</option>
-                <option value="lost">Lost Item</option>
-                <option value="found">Found Item</option>
+                <option value="lost">I Lost an Item</option>
+                <option value="found">I Found an Item</option>
               </select>
             </div>
           </div>
-
-          <!-- What you found/lost -->
           <div>
             <label
               class="block text-sm font-medium text-gray-800 mb-2"
               id="item-label"
-              >What you found?</label
+              >What item?</label
             >
             <input
               type="text"
               id="item-name"
-              placeholder="Dompet bewarna coklat..."
-              class="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-colors"
+              placeholder="e.g., Brown leather wallet"
+              class="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg"
             />
           </div>
-
-          <!-- Item Description -->
           <div>
             <label class="block text-sm font-medium text-gray-800 mb-2"
               >Item Description</label
@@ -314,12 +68,10 @@
             <textarea
               id="item-description"
               rows="6"
-              placeholder="Type your item description..."
-              class="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-colors resize-none"
+              placeholder="Describe the item in detail..."
+              class="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg resize-none"
             ></textarea>
           </div>
-
-          <!-- Location -->
           <div>
             <label class="block text-sm font-medium text-gray-800 mb-2"
               >Location</label
@@ -327,12 +79,10 @@
             <input
               type="text"
               id="location"
-              placeholder="Type the item location..."
-              class="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-colors"
+              placeholder="e.g., GKM Building, 3rd Floor"
+              class="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg"
             />
           </div>
-
-          <!-- Photos -->
           <div>
             <label class="block text-sm font-medium text-gray-800 mb-2"
               >Photos (Optional)</label
@@ -348,243 +98,27 @@
                 multiple
                 accept="image/*"
               />
-              <div class="flex flex-col items-center space-y-2">
-                <svg
-                  class="w-12 h-12 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                  />
-                </svg>
-                <div>
-                  <p class="text-lg font-medium text-gray-700">Upload Photos</p>
-                  <p class="text-sm text-gray-500">
-                    Click to select images or drag and drop
-                  </p>
-                </div>
-              </div>
+              <p class="text-gray-700">Click or drag & drop files here</p>
             </div>
-            <!-- Selected files preview -->
             <div
               id="file-preview"
               class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-4 hidden"
             ></div>
           </div>
-
-          <!-- Submit Button -->
           <button
             type="submit"
-            class="w-full bg-orange-500 text-white py-4 px-6 rounded-lg font-medium text-lg hover:bg-orange-600 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+            class="w-full bg-orange-500 text-white py-4 rounded-lg font-medium text-lg hover:bg-orange-600"
           >
             Submit Report
           </button>
         </form>
       </div>
-
-      <!-- Back Button -->
-      <div class="mt-6">
-        <button
-          onclick="window.history.back()"
-          class="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-colors"
-        >
-          <svg
-            class="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          <span>Back to Home</span>
-        </button>
-      </div>
     </main>
 
-    <script>
-      // Mobile sidebar functionality
-      const menuToggle = document.getElementById("menu-toggle");
-      const closeSidebar = document.getElementById("close-sidebar");
-      const sidebarOverlay = document.getElementById("sidebar-overlay");
-      const sidebar = document.getElementById("sidebar");
-
-      function openSidebar() {
-        sidebarOverlay.classList.remove("opacity-0", "invisible");
-        sidebarOverlay.classList.add("opacity-100", "visible");
-        sidebar.classList.remove("translate-x-full");
-        sidebar.classList.add("translate-x-0");
-        document.body.style.overflow = "hidden";
-      }
-
-      function closeSidebarFunc() {
-        sidebarOverlay.classList.add("opacity-0", "invisible");
-        sidebarOverlay.classList.remove("opacity-100", "visible");
-        sidebar.classList.add("translate-x-full");
-        sidebar.classList.remove("translate-x-0");
-        document.body.style.overflow = "auto";
-      }
-
-      menuToggle.addEventListener("click", openSidebar);
-      closeSidebar.addEventListener("click", closeSidebarFunc);
-
-      // Close sidebar when clicking on overlay
-      sidebarOverlay.addEventListener("click", (e) => {
-        if (e.target === sidebarOverlay) {
-          closeSidebarFunc();
-        }
-      });
-
-      // Close sidebar on escape key
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-          closeSidebarFunc();
-        }
-      });
-
-      // Handle responsive behavior
-      function handleResize() {
-        if (window.innerWidth >= 1024) {
-          // lg breakpoint
-          closeSidebarFunc();
-        }
-      }
-
-      window.addEventListener("resize", handleResize);
-      handleResize();
-
-      // Form functionality
-      const reportType = document.getElementById("report-type");
-      const itemLabel = document.getElementById("item-label");
-      const itemName = document.getElementById("item-name");
-
-      // Update form based on report type
-      reportType.addEventListener("change", function () {
-        if (this.value === "lost") {
-          itemLabel.textContent = "What did you lose?";
-          itemName.placeholder = "Dompet bewarna coklat...";
-        } else if (this.value === "found") {
-          itemLabel.textContent = "What you found?";
-          itemName.placeholder = "Dompet bewarna coklat...";
-        }
-      });
-
-      // File upload functionality
-      const fileUpload = document.getElementById("file-upload");
-      const fileInput = document.getElementById("file-input");
-      const filePreview = document.getElementById("file-preview");
-
-      fileUpload.addEventListener("click", () => {
-        fileInput.click();
-      });
-
-      // Drag and drop functionality
-      fileUpload.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        fileUpload.classList.add("dragover");
-      });
-
-      fileUpload.addEventListener("dragleave", (e) => {
-        e.preventDefault();
-        fileUpload.classList.remove("dragover");
-      });
-
-      fileUpload.addEventListener("drop", (e) => {
-        e.preventDefault();
-        fileUpload.classList.remove("dragover");
-        const files = e.dataTransfer.files;
-        handleFiles(files);
-      });
-
-      fileInput.addEventListener("change", (e) => {
-        handleFiles(e.target.files);
-      });
-
-      function handleFiles(files) {
-        filePreview.innerHTML = "";
-        filePreview.classList.remove("hidden");
-
-        Array.from(files).forEach((file, index) => {
-          if (file.type.startsWith("image/")) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              const div = document.createElement("div");
-              div.className = "relative group";
-              div.innerHTML = `
-                            <img src="${e.target.result}" alt="Preview ${
-                index + 1
-              }" class="w-full h-24 object-cover rounded-lg">
-                            <button type="button" onclick="removeFile(${index})" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 transition-colors">×</button>
-                        `;
-              filePreview.appendChild(div);
-            };
-            reader.readAsDataURL(file);
-          }
-        });
-      }
-
-      function removeFile(index) {
-        const previews = filePreview.children;
-        if (previews[index]) {
-          previews[index].remove();
-          if (filePreview.children.length === 0) {
-            filePreview.classList.add("hidden");
-          }
-        }
-      }
-
-      // Form submission
-      document.getElementById("report-form").addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        // Validate required fields
-        const reportTypeValue = reportType.value;
-        const itemNameValue = itemName.value.trim();
-        const descriptionValue = document
-          .getElementById("item-description")
-          .value.trim();
-        const locationValue = document.getElementById("location").value.trim();
-
-        if (!reportTypeValue) {
-          alert("Please select a report type");
-          return;
-        }
-
-        if (!itemNameValue) {
-          alert(
-            "Please enter what you " +
-              (reportTypeValue === "lost" ? "lost" : "found")
-          );
-          return;
-        }
-
-        if (!descriptionValue) {
-          alert("Please provide item description");
-          return;
-        }
-
-        if (!locationValue) {
-          alert("Please provide location information");
-          return;
-        }
-
-        // Show success message (in real app, this would submit to server)
-        alert("Report submitted successfully!");
-
-        // Reset form
-        document.getElementById("report-form").reset();
-        filePreview.innerHTML = "";
-        filePreview.classList.add("hidden");
-      });
-    </script>
+    <script src="../assets/js/data_manager.js"></script>
+    <script src="../assets/js/lost_data.js"></script>
+    <script src="../assets/js/find_data.js"></script>
+    <script src="../assets/js/navbar_loader.js"></script>
+    <script src="../assets/js/pages/report_item.js"></script>
   </body>
 </html>

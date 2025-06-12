@@ -1,0 +1,47 @@
+const foundItems = [
+  {
+    id: 1,
+    name: "Jamal Musiala",
+    initials: "JM",
+    avatarColor: "bg-blue-600",
+    timeAgo: "3 hr. ago",
+    location: "GKM",
+    title: "Kunci Motor Honda",
+    itemType: "Found Items",
+    miniDescription: "Menemukan kunci motor merk honda di sekitar area gkm",
+    description: "Temuan kunci motor merk honda di sekitar area gkm. Kunci tersebut berwarna hitam dengan gantungan kunci berwarna merah. kunci tersebut ditemukan pada saat jam ishoma sekitar pukul 12.20 WIB.",
+    image: "https://picsum.photos/id/237/200/300", // Ganti dengan URL gambar asli
+    detailsLink: "find_item_details.html",
+    hasDetailsLink: true,
+  },
+  {
+    id: 2,
+    name: "Agung Putra",
+    initials: "👑",
+    avatarColor: "bg-yellow-600",
+    timeAgo: "5 hr. ago",
+    location: "GKM",
+    title: "Dompet Kulit Hitam",
+    itemType: "Found Items",
+    miniDescription: "Kehilangan dompet kulit hitam di sekitar area gkm",
+    description: "Deskripsi lengkap untuk dompet kulit hitam.",
+    image: "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//102/MTA-30852924/oem_dompet-pria-kulit-asli-garut-model-3-dimensi-original-bonus-box_full01.jpg", // Ganti dengan URL gambar asli
+    detailsLink: "find_item_details.html",
+    hasDetailsLink: true,
+  },
+  {
+    id: 3,
+    name: "Harry Kane",
+    initials: "HK",
+    avatarColor: "bg-gray-600",
+    timeAgo: "7 hr. ago",
+    location: "Edutech",
+    title: "Helm Fullface Putih",
+    itemType: "Found Items",
+    miniDescription: "Kehilangan helm fullface bewarna putih di sekitar area parkir edutech",
+    description: "Deskripsi lengkap untuk helm.",
+    image: "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//105/MTA-42358911/kbc_helm_kbc_vk_solid_-_white_-_helm_full_face_-_helm_kbc_full01_l45hwea2.jpg", // Ganti dengan URL gambar asli
+    detailsLink: "find_item_details.html",
+    hasDetailsLink: true,
+  },
+];

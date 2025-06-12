@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FILOTI Navbar Component</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scrollbar for sidebar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 2px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Smooth transitions */
+        .sidebar-overlay {
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex bg-white shadow-sm px-6 py-4 items-center justify-between sticky top-0 z-40">
+        <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center overflow-hidden">
+                    <img src="../assets/img/logo_filoti.png" alt="Logo" class="w-full h-full object-cover" />
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-800">FILOTI</h1>
+                    <p class="text-sm text-gray-600">Student Lost and Found Application</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center space-x-6">
+            <!-- Search Icon -->
+            <button class="px-2 py-2 bg-gray-100 rounded-full">
+                <svg class="w-5 h-5 text-gray-600 mr-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </button>
+
+            <a href="lost_item.html" class="nav-link text-gray-700 hover:text-blue-600 transition-colors" data-page="lost-items">Lost Items</a>
+            <a href="find_item.html" class="nav-link text-gray-700 hover:text-blue-600 transition-colors" data-page="found-items">Found Items</a>
+            <a href="history.html" class="nav-link text-gray-700 hover:text-blue-600 transition-colors" data-page="history">History</a>
+            <a href="report_item.html" class="nav-link text-gray-700 hover:text-blue-600 transition-colors" data-page="report-item">Report Item</a>
+            <a href="notification.html" class="nav-link text-gray-700 hover:text-blue-600 transition-colors" data-page="notification">Notification</a>
+            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                Login
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Header -->
+    <header class="lg:hidden bg-white shadow-sm px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+        <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-green-500 rounded-lg flex items-center justify-center">
+                <img src="../assets/img/logo_filoti.png" alt="Logo" class="w-full h-full object-cover rounded-lg" />
+            </div>
+            <div>
+                <h1 class="text-lg font-bold text-gray-800">FILOTI</h1>
+                <p class="text-xs text-gray-600">Student Lost and Found Application</p>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-3">
+            <!-- Search Icon -->
+            <button class="p-2 bg-gray-100 rounded-full">
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </button>
+
+            <!-- Hamburger Menu Button -->
+            <button id="menu-toggle" class="p-2 bg-orange-500 rounded-full">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebar-overlay" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-50 opacity-0 invisible sidebar-overlay">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar fixed right-0 top-0 h-full w-80 bg-white shadow-lg transform translate-x-full custom-scrollbar overflow-y-auto">
+            <div class="p-6">
+                <!-- Close button -->
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Menu</h2>
+                    <button id="close-sidebar" class="p-2 hover:bg-gray-100 rounded-full">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="space-y-4">
+                    <a href="lost_item.html" class="mobile-nav-link block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors" data-page="lost-items">
+                        Lost Items
+                    </a>
+                    <a href="find_item.html" class="mobile-nav-link block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors" data-page="found-items">
+                        Found Items
+                    </a>
+                    <a href="history.html" class="mobile-nav-link block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors" data-page="history">
+                        History
+                    </a>
+                    <a href="report_item.html" class="mobile-nav-link block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors" data-page="report-item">
+                        Report Item
+                    </a>
+                    <a href="notification.html" class="mobile-nav-link block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors" data-page="notification">
+                        Notification
+                    </a>
+                    <div class="pt-4 border-t border-gray-200">
+                        <button class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                            Login
+                        </button>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navbar functionality
+        class FilotiNavbar {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.setupMobileSidebar();
+                this.handleResize();
+                this.setActiveNavigation();
+                
+                // Add event listeners
+                window.addEventListener("resize", () => this.handleResize());
+            }
+
+            setupMobileSidebar() {
+                const menuToggle = document.getElementById("menu-toggle");
+                const closeSidebar = document.getElementById("close-sidebar");
+                const sidebarOverlay = document.getElementById("sidebar-overlay");
+                const sidebar = document.getElementById("sidebar");
+
+                if (!menuToggle || !closeSidebar || !sidebarOverlay || !sidebar) return;
+
+                menuToggle.addEventListener("click", () => this.openSidebar());
+                closeSidebar.addEventListener("click", () => this.closeSidebar());
+
+                // Close sidebar when clicking on overlay
+                sidebarOverlay.addEventListener("click", (e) => {
+                    if (e.target === sidebarOverlay) {
+                        this.closeSidebar();
+                    }
+                });
+
+                // Close sidebar on escape key
+                document.addEventListener("keydown", (e) => {
+                    if (e.key === "Escape") {
+                        this.closeSidebar();
+                    }
+                });
+            }
+
+            openSidebar() {
+                const sidebarOverlay = document.getElementById("sidebar-overlay");
+                const sidebar = document.getElementById("sidebar");
+                
+                sidebarOverlay.classList.remove("opacity-0", "invisible");
+                sidebarOverlay.classList.add("opacity-100", "visible");
+                sidebar.classList.remove("translate-x-full");
+                sidebar.classList.add("translate-x-0");
+                document.body.style.overflow = "hidden";
+            }
+
+            closeSidebar() {
+                const sidebarOverlay = document.getElementById("sidebar-overlay");
+                const sidebar = document.getElementById("sidebar");
+                
+                sidebarOverlay.classList.add("opacity-0", "invisible");
+                sidebarOverlay.classList.remove("opacity-100", "visible");
+                sidebar.classList.add("translate-x-full");
+                sidebar.classList.remove("translate-x-0");
+                document.body.style.overflow = "auto";
+            }
+
+            handleResize() {
+                if (window.innerWidth >= 1024) {
+                    this.closeSidebar();
+                }
+            }
+
+            setActiveNavigation() {
+                // Get current page from URL or set from data attribute
+                const currentPage = window.location.pathname.split('/').pop();
+                
+                // Map file names to page identifiers
+                const pageMap = {
+                    'index.html': 'lost-items',
+                    '': 'lost-items', // default/root
+                    'find_item.html': 'found-items',
+                    'find_item_details.html': 'found-items',
+                    'history.html': 'history',
+                    'report_item.html': 'report-item',
+                    'notification.html': 'notification'
+                };
+
+                const activePage = pageMap[currentPage] || 'lost-items';
+
+                // Set active state for desktop navigation
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    const linkPage = link.getAttribute('data-page');
+                    if (linkPage === activePage) {
+                        link.classList.remove('text-gray-700');
+                        link.classList.add('text-blue-600');
+                    } else {
+                        link.classList.remove('text-blue-600');
+                        link.classList.add('text-gray-700');
+                    }
+                });
+
+                // Set active state for mobile navigation
+                document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                    const linkPage = link.getAttribute('data-page');
+                    if (linkPage === activePage) {
+                        link.classList.remove('text-gray-700');
+                        link.classList.add('text-blue-600', 'bg-blue-50');
+                    } else {
+                        link.classList.remove('text-blue-600', 'bg-blue-50');
+                        link.classList.add('text-gray-700');
+                    }
+                });
+            }
+        }
+        // Expose navbar functionality globally if needed
+        window.FilotiNavbar = FilotiNavbar;
+    </script>
+</body>
+</html>
