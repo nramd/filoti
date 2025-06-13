@@ -55,7 +55,7 @@
      
     <script src="../assets/js/data_manager.js"></script>
 
-    <script src="../assets/js/lost_data.js"></script>
+    <script src="../assets/js/data.js"></script>
 
     <script src="../assets/js/navbar_loader.js"></script>
 
@@ -78,7 +78,7 @@
         const itemId = parseInt(urlParams.get("id")); // Ambil 'id' dan ubah ke angka
 
         // 2. Cari item yang cocok di dalam array 'lostItems'
-        const item = lostItems.find((i) => i.id === itemId);
+        const item = allItems.find((i) => i.id === itemId);
         const mainContent = document.querySelector("main");
 
         // 3. Tampilkan data jika item ditemukan

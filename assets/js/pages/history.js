@@ -24,14 +24,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     ${statusBadge}
                 </div>
                 <p class="text-gray-800 font-medium">${item.title}</p>
-                <p class="text-gray-600 text-sm mb-3">Tipe Laporan: ${item.itemType}</p>
+                <p class="text-gray-600 text-sm mb-3">Item Type: ${item.itemType}</p>
                 <a href="${item.detailsLink}?id=${item.id}" class="bg-blue-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-800 transition-colors inline-block text-center">View Details</a>
               </div>
             </div>
           </div>`;
     }
 
-    const itemsToDisplay = loadItems('historyItems', historyItems);
+    const allItemsData = loadItems('allItems', allItems);
+    // Filter hanya item yang 'lost' dan 'active'
+    const itemsToDisplay = allItemsData.filter(item => item.status === 'done');
 
     if (typeof itemsToDisplay !== 'undefined' && document.getElementById("history-items-container")) {
         const container = document.getElementById("history-items-container");

@@ -1,9 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Fungsi untuk membuat satu elemen item
     function createItemFound(item) {
-        const buttonHTML = item.hasDetailsLink
-          ? `<a href="${item.detailsLink}?id=${item.id}" class="bg-blue-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-800 transition-colors inline-block text-center">View Details</a>`
-          : `<button class="bg-blue-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-800 transition-colors">View Details</button>`;
+        // Di dalam fungsi createItemLost/Found
+        const buttonHTML = `
+          <div class="flex items-center space-x-2">
+            <a href="${item.detailsLink}?id=${item.id}" class="bg-blue-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-800">View Details</a>
+            <a href="edit_item.html?id=${item.id}" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm hover:bg-gray-300">Edit</a>
+          </div>
+        `;
 
         return `
           <div class="bg-white rounded-lg shadow-sm p-4 lg:p-6 flex flex-col lg:flex-row items-start lg:items-center space-y-4 lg:space-y-0 lg:space-x-6">
@@ -27,9 +31,9 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>`;
     }
 
-    // Ambil container dan render semua item dari `foundItems` (yang ada di find_data.js)
-    // Kita cek dulu apakah foundItems dan container ada, untuk mencegah error
-    const itemsToDisplay = loadItems('foundItems', foundItems);
+    const allItemsData = loadItems('allItems', allItems);
+    // Filter hanya item yang 'lost' dan 'active'
+    const itemsToDisplay = allItemsData.filter(item => item.itemType === 'found' && item.status === 'active');
 
     // Ganti variabel yang di-loop menjadi `itemsToDisplay`
     if (typeof itemsToDisplay !== 'undefined' && document.getElementById("found-items-container")) {

@@ -19,7 +19,7 @@
     </main>
 
     <script src="../assets/js/data_manager.js"></script>
-    <script src="../assets/js/history_data.js"></script>
+    <script src="../assets/js/data.js"></script>
     <script src="../assets/js/navbar_loader.js"></script>
     
     <script>
@@ -30,7 +30,7 @@
             // Logika Halaman
             const urlParams = new URLSearchParams(window.location.search);
             const itemId = parseInt(urlParams.get('id'));
-            const allHistoryItems = loadItems('historyItems', historyItems);
+            const allHistoryItems = loadItems('allItems', allItems);
             const item = allHistoryItems.find(i => i.id === itemId);
             const contentContainer = document.getElementById('details-content');
             
@@ -65,7 +65,7 @@
                         <p class="text-gray-700 leading-relaxed mb-4">
                             This case has been resolved. The item was successfully returned/claimed by <strong>${item.claimer.name}</strong>.
                         </p>
-                        <a href="bukti.html?id=${item.id}" class="w-full block text-center bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition-colors">
+                        <a href="history_details_bukti.html?id=${item.id}" class="w-full block text-center bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition-colors">
                             Lihat Bukti Pengambilan
                         </a>
                     </div>
