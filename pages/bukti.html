@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FILOTI - Bukti Pengambilan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div id="navbar-container"></div>
+
+    <main class="container mx-auto px-4 py-6 max-w-2xl">
+        <div class="mb-6">
+            <p class="text-sm text-gray-500"><a href="history.html" class="hover:underline">History</a> > <span id="breadcrumb-details">Details</span> > Bukti</p>
+        </div>
+        
+        <div id="proof-content">
+            </div>
+    </main>
+
+    <script src="../assets/js/data_manager.js"></script>
+    <script src="../assets/js/history_data.js"></script>
+    <script src="../assets/js/navbar_loader.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Muat Navbar
+            new NavbarLoader({ navbarPath: "../components/navbar.html", onLoad: () => new FilotiNavbar() }).loadNavbarSimple();
+
+            // Logika Halaman
+            const urlParams = new URLSearchParams(window.location.search);
+            const itemId = parseInt(urlParams.get('id'));
+            const allHistoryItems = loadItems('historyItems', historyItems);
+            const item = allHistoryItems.find(i => i.id === itemId);
+            const contentContainer = document.getElementById('proof-content');
+
+            if (item) {
+                document.title = `FILOTI - Bukti: ${item.title}`;
+                document.getElementById('breadcrumb-details').innerHTML = `<a href="history_details.html?id=${item.id}" class="hover:underline">Details</a>`;
+                
+                contentContainer.innerHTML = `
+                    <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Bukti Pengambilan untuk "${item.title}"</h2>
+                        <div class="border-t border-gray-200 pt-4">
+                            <dl class="space-y-4">
+                                <div>
+                                    <dt class="text-sm font-medium text-gray-500">Nama Pengklaim</dt>
+                                    <dd class="mt-1 text-lg font-semibold text-gray-900">${item.claimer.name}</dd>
+                                </div>
+                                <div>
+                                    <dt class="text-sm font-medium text-gray-500">Bukti yang Diberikan</dt>
+                                    <dd class="mt-1 text-gray-700 bg-gray-50 p-4 rounded-md">${item.claimer.proofText}</dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </div>
+                     <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Foto Bukti (Jika Ada)</h3>
+                        <img src="${item.claimer.proofImage}" alt="Foto Bukti" class="w-full h-auto object-cover rounded-lg bg-gray-200" />
+                    </div>
+                    <div class="mt-6">
+                        <button onclick="window.history.back()" class="flex items-center space-x-2 text-gray-600 hover:text-gray-800">
+                          <span>&larr; Kembali</span>
+                        </button>
+                    </div>
+                `;
+            } else {
+                contentContainer.innerHTML = '<p>Item not found.</p>';
+            }
+        });
+    </script>
+</body>
+</html>

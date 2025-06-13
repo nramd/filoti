@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FILOTI - History Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div id="navbar-container"></div>
+
+    <main class="container mx-auto px-4 py-6 max-w-2xl">
+        <div class="mb-6">
+            <p class="text-sm text-gray-500"><a href="history.html" class="hover:underline">History</a> > Details</p>
+        </div>
+        
+        <div id="details-content">
+            </div>
+    </main>
+
+    <script src="../assets/js/data_manager.js"></script>
+    <script src="../assets/js/history_data.js"></script>
+    <script src="../assets/js/navbar_loader.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Muat Navbar
+            new NavbarLoader({ navbarPath: "../components/navbar.html", onLoad: () => new FilotiNavbar() }).loadNavbarSimple();
+
+            // Logika Halaman
+            const urlParams = new URLSearchParams(window.location.search);
+            const itemId = parseInt(urlParams.get('id'));
+            const allHistoryItems = loadItems('historyItems', historyItems);
+            const item = allHistoryItems.find(i => i.id === itemId);
+            const contentContainer = document.getElementById('details-content');
+            
+            if (item) {
+                document.title = `FILOTI - Detail: ${item.title}`;
+                contentContainer.innerHTML = `
+                    <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 ${item.avatarColor} rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-white font-bold text-lg">${item.initials || item.name.substring(0,2)}</span>
+                            </div>
+                            <div class="flex-1">
+                                <h2 class="text-xl font-bold text-gray-800 mb-1">${item.name}</h2>
+                                <div class="flex flex-wrap items-center gap-2 text-sm text-gray-500 mb-2">
+                                    <span>• ${item.timeAgo}</span>
+                                    <span>• ${item.location}</span>
+                                    <span>• ${item.itemType}</span>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-800 mt-2">${item.title}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-auto object-cover rounded-lg bg-gray-200" />
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Description</h3>
+                        <p class="text-gray-700 leading-relaxed">${item.description}</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Case Closed</h3>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            This case has been resolved. The item was successfully returned/claimed by <strong>${item.claimer.name}</strong>.
+                        </p>
+                        <a href="bukti.html?id=${item.id}" class="w-full block text-center bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition-colors">
+                            Lihat Bukti Pengambilan
+                        </a>
+                    </div>
+                `;
+            } else {
+                contentContainer.innerHTML = '<p>Item not found.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
