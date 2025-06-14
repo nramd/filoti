@@ -17,11 +17,41 @@
         <p class="text-sm text-gray-500">> Found Item</p>
       </div>
 
+      <div class="mb-6 relative">
+        <button
+          id="filter-location-btn"
+          class="w-full sm:w-auto flex items-center justify-between bg-white px-4 py-3 rounded-lg shadow-sm border text-left"
+        >
+          <span id="filter-label" class="font-medium text-gray-700"
+            >Filter by Location</span
+          >
+          <svg
+            class="w-5 h-5 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
+        </button>
+
+        <div
+          id="location-dropdown"
+          class="hidden absolute top-full left-0 mt-2 w-full sm:w-72 bg-white rounded-lg shadow-xl border z-10"
+        ></div>
+      </div>
       <!-- Found Items List -->
       <div id="found-items-container" class="space-y-4"></div>
     </main>
 
     <script src="../assets/js/data_manager.js"></script>
+
+    <script src="../assets/js/locations_data.js"></script>
     
     <script src="../assets/js/data.js"></script>
 

@@ -69,26 +69,20 @@
             document.body.classList.add("navbar-loaded");
           },
         });
-        loader.loadNavbarSimple();
+        loader.loadNavbar();
 
-        // --- Logika untuk Menampilkan Detail Barang ---
-
-        // 1. Ambil ID dari URL
         const urlParams = new URLSearchParams(window.location.search);
-        const itemId = parseInt(urlParams.get("id")); // Ambil 'id' dan ubah ke angka
+        const itemId = parseInt(urlParams.get("id")); 
 
-        // 2. Cari item yang cocok di dalam array 'foundItems'
         const item = allItems.find((i) => i.id === itemId);
         const mainContent = document.querySelector("main");
 
-        // 3. Tampilkan data jika item ditemukan
         if (item) {
-          document.title = `FILOTI - ${item.title}`; // Update judul halaman
+          document.title = `FILOTI - ${item.title}`; 
 
-          // Isi data ke elemen HTML
           document.getElementById(
             "item-avatar"
-          ).className += ` ${item.avatarColor}`; // Tambah class warna
+          ).className += ` ${item.avatarColor}`;
           document.getElementById("item-initials").textContent = item.initials;
           document.getElementById("item-name").textContent = item.name;
           document.getElementById(
@@ -108,7 +102,6 @@
           itemImage.src = item.image;
           itemImage.alt = item.title;
         } else {
-          // 4. Tampilkan pesan error jika item tidak ditemukan
           mainContent.innerHTML = `
             <div class="text-center py-20">
               <h1 class="text-2xl font-bold text-red-600">Error 404</h1>

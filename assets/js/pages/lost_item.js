@@ -1,14 +1,20 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Fungsi untuk membuat satu elemen item
+
+    const filterBtn = document.getElementById('filter-location-btn');
+    const dropdown = document.getElementById('location-dropdown');
+    const filterLabel = document.getElementById('filter-label');
+    const itemsContainerLost = document.getElementById('lost-items-container');
+
+    const allItemsFromStorage = loadItems('allItems', allItems);
+    const activeLostItems = allItemsFromStorage.filter(item => item.itemType === 'lost' && item.status === 'active');
+
     function createItemLost(item) {
-        // Di dalam fungsi createItemLost/Found
         const buttonHTML = `
           <div class="flex items-center space-x-2">
             <a href="${item.detailsLink}?id=${item.id}" class="bg-blue-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-800">View Details</a>
             <a href="edit_item.html?id=${item.id}" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg text-sm hover:bg-gray-300">Edit</a>
           </div>
         `;
-
         return `
           <div class="bg-white rounded-lg shadow-sm p-4 lg:p-6 flex flex-col lg:flex-row items-start lg:items-center space-y-4 lg:space-y-0 lg:space-x-6">
             <div class="flex items-start space-x-3 flex-1">
@@ -31,22 +37,72 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>`;
     }
 
-    // Ambil container dan render semua item dari `allItems` (yang ada di data.js)
-    // Kita cek dulu apakah allItems dan container ada, untuk mencegah error
-    const allItemsData = loadItems('allItems', allItems);
-    // Filter hanya item yang 'lost' dan 'active'
-    const itemsToDisplay = allItemsData.filter(item => item.itemType === 'lost' && item.status === 'active');
+    function renderItems(locationFilter = 'all') {
+        if (!itemsContainerLost) return;
+        itemsContainerLost.innerHTML = ''; 
 
-    // Ganti variabel yang di-loop menjadi `itemsToDisplay`
-    if (typeof itemsToDisplay !== 'undefined' && document.getElementById("lost-items-container")) {
-        const container = document.getElementById("lost-items-container");
-        container.innerHTML = ''; 
-    
-        itemsToDisplay.forEach((item) => {
-        container.innerHTML += createItemLost(item);
+        const itemsToRender = locationFilter === 'all'
+          ? activeLostItems
+          : activeLostItems.filter(item => 
+          item.location.toLowerCase().includes(locationFilter.toLowerCase())
+        );
+
+        if (itemsToRender.length === 0) {
+            itemsContainerLost.innerHTML = '<p class="text-center text-gray-500 py-10">Tidak ada item yang cocok dengan filter ini.</p>';
+            return;
+        }
+
+        itemsToRender.forEach(item => {
+            itemsContainerLost.innerHTML += createItemLost(item);
         });
     }
+
+    function populateLocationFilter() {
+        if (!dropdown || typeof locations === 'undefined') return;
+        dropdown.innerHTML = ''; 
+        const allOption = document.createElement('a');
+        allOption.href = '#';
+        allOption.className = 'block px-4 py-3 text-gray-700 hover:bg-blue-50 font-semibold';
+        allOption.textContent = 'Tampilkan Semua Lokasi';
+        allOption.dataset.location = 'all';
+        dropdown.appendChild(allOption);
+        locations.forEach(loc => {
+            const option = document.createElement('a');
+            option.href = '#';
+            option.className = 'block px-4 py-3 text-gray-700 hover:bg-blue-50';
+            option.textContent = loc.name;
+            option.dataset.location = loc.name;
+            dropdown.appendChild(option);
+        });
+    }
+
+    if(filterBtn) {
+        filterBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle('hidden');
+        });
+    }
+    window.addEventListener('click', () => {
+        if (dropdown && !dropdown.classList.contains('hidden')) {
+            dropdown.classList.add('hidden');
+        }
+    });
+    if(dropdown) {
+        dropdown.addEventListener('click', (e) => {
+            e.preventDefault();
+            const selectedLocation = e.target.dataset.location;
+            if (selectedLocation) {
+                renderItems(selectedLocation);
+                filterLabel.textContent = selectedLocation === 'all' ? 'Filter by Location' : selectedLocation;
+                dropdown.classList.add('hidden');
+            }
+        });
+    }
+
+    populateLocationFilter();
+    renderItems();
     
+    // Inisialisasi Navbar
     if (typeof NavbarLoader !== 'undefined') {
         const loader = new NavbarLoader({
           navbarPath: "../components/navbar.html",
@@ -64,6 +120,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           }
         });
-        loader.loadNavbarSimple();
+        loader.loadNavbar();
     }
 });

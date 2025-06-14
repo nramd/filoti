@@ -25,7 +25,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Muat Navbar
-            new NavbarLoader({ navbarPath: "../components/navbar.html", onLoad: () => new FilotiNavbar() }).loadNavbarSimple();
+            new NavbarLoader({ navbarPath: "../components/navbar.html", onLoad: () => new FilotiNavbar() }).loadNavbar();
 
             // Logika Halaman
             const urlParams = new URLSearchParams(window.location.search);

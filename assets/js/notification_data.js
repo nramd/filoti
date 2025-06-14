@@ -1,9 +1,8 @@
 const notifications = [
   {
     id: 1,
-    type: 'comment', // 'comment', 'found', 'claim'
+    type: 'comment', 
     iconColor: 'bg-blue-500',
-    // Gunakan tag <strong> untuk menebalkan nama
     text: '<strong>Sarah Putri Maharani</strong> mengomentari laporan Anda: "Dompet Kulit Coklat".',
     time: '15 menit yang lalu'
   },
@@ -30,7 +29,6 @@ const notifications = [
   },
 ];
 
-// Fungsi untuk mendapatkan SVG ikon berdasarkan tipe notifikasi
 function getNotificationIcon(type) {
   switch (type) {
     case 'comment':

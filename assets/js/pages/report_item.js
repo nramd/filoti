@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let uploadedFiles = [];
     function handleFiles(files) {
-        uploadedFiles = Array.from(files); // Simpan file untuk di-submit
+        uploadedFiles = Array.from(files);
         filePreview.innerHTML = "";
         filePreview.classList.remove("hidden");
         uploadedFiles.forEach((file, index) => {
@@ -50,13 +50,13 @@ document.addEventListener("DOMContentLoaded", function () {
     filePreview.addEventListener('click', function(e) {
         if (e.target.classList.contains('remove-file-btn')) {
             const indexToRemove = parseInt(e.target.dataset.index, 10);
-            uploadedFiles.splice(indexToRemove, 1); // Hapus dari array
-            handleFiles(uploadedFiles); // Render ulang preview
+            uploadedFiles.splice(indexToRemove, 1);
+            handleFiles(uploadedFiles); 
         }
     });
 
     document.getElementById("report-form").addEventListener("submit", (e) => {
-        e.preventDefault(); // Mencegah form reload halaman
+        e.preventDefault(); 
 
         const reportTypeValue = reportType.value;
         const itemNameValue = itemName.value.trim();
@@ -68,7 +68,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // Tentukan data mana yang akan diupdate
         const isLostItem = reportTypeValue === 'lost';
         const storageKey = isLostItem ? 'lostItems' : 'foundItems';
         const defaultItems = isLostItem ? (typeof lostItems !== 'undefined' ? lostItems : []) : (typeof foundItems !== 'undefined' ? foundItems : []);
@@ -76,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Buat objek item baru
         const newItem = {
             id: Date.now(), // ID unik berdasarkan timestamp
-            name: "User Name", // Nama user (bisa dibuat dinamis jika ada sistem login)
+            name: "User Name",
             initials: "US",
             avatarColor: isLostItem ? "bg-red-500" : "bg-green-500",
             timeAgo: "Baru saja",
@@ -85,17 +84,17 @@ document.addEventListener("DOMContentLoaded", function () {
             itemType: isLostItem ? "Lost Item" : "Found Item",
             miniDescription: descriptionValue.substring(0, 50) + '...',
             description: descriptionValue,
-            image: uploadedFiles.length > 0 ? URL.createObjectURL(uploadedFiles[0]) : "https://placehold.co/600x400?text=No+Image", // Contoh, hanya ambil gambar pertama
-            detailsLink: isLostItem ? "lost_item_details.html" : "find_item_details.html", // Sesuaikan link detail
+            image: uploadedFiles.length > 0 ? URL.createObjectURL(uploadedFiles[0]) : "https://placehold.co/600x400?text=No+Image",
+            detailsLink: isLostItem ? "lost_item_details.html" : "find_item_details.html", 
             hasDetailsLink: true,
         };
 
-        // Simpan data baru ke localStorage
+        // Menyimpan data baru ke localStorage
         const currentItems = loadItems(storageKey, defaultItems);
-        currentItems.unshift(newItem); // Tambahkan item baru di paling atas
+        currentItems.unshift(newItem); // Menambahkan item baru di paling atas
         saveItems(storageKey, currentItems);
 
-        // Beri notifikasi dan arahkan pengguna
+        // Memberikan notifikasi dan mengarahkan user
         alert("Report submitted successfully!");
         window.location.href = isLostItem ? 'lost_item.html' : 'find_item.html';
     });
@@ -107,6 +106,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (typeof FilotiNavbar !== "undefined") new FilotiNavbar();
             }
         });
-        loader.loadNavbarSimple();
+        loader.loadNavbar();
     }
 });

@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
     function createNotificationElement(notification) {
-        // Panggil fungsi untuk mendapatkan ikon SVG yang sesuai
         const iconSVG = getNotificationIcon(notification.type);
 
         return `
@@ -49,6 +48,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           }
         });
-        loader.loadNavbarSimple();
+        loader.loadNavbar();
     }
 });

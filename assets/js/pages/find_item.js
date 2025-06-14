@@ -1,7 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Fungsi untuk membuat satu elemen item
+
+    const filterBtn = document.getElementById('filter-location-btn');
+    const dropdown = document.getElementById('location-dropdown');
+    const filterLabel = document.getElementById('filter-label');
+    const itemsContainerFound = document.getElementById('found-items-container');
+
+    const allItemsData = loadItems('allItems', allItems);
+    const itemsToDisplay = allItemsData.filter(item => item.itemType === 'found' && item.status === 'active');
+    
     function createItemFound(item) {
-        // Di dalam fungsi createItemLost/Found
         const buttonHTML = `
           <div class="flex items-center space-x-2">
             <a href="${item.detailsLink}?id=${item.id}" class="bg-blue-900 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-800">View Details</a>
@@ -30,21 +37,72 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
           </div>`;
     }
-
-    const allItemsData = loadItems('allItems', allItems);
-    // Filter hanya item yang 'lost' dan 'active'
-    const itemsToDisplay = allItemsData.filter(item => item.itemType === 'found' && item.status === 'active');
-
-    // Ganti variabel yang di-loop menjadi `itemsToDisplay`
-    if (typeof itemsToDisplay !== 'undefined' && document.getElementById("found-items-container")) {
-        const container = document.getElementById("found-items-container");
-        container.innerHTML = ''; 
     
-        itemsToDisplay.forEach((item) => {
-        container.innerHTML += createItemFound(item);
+    function renderItems(locationFilter = 'all') {
+        if (!itemsContainerFound) return;
+        itemsContainerFound.innerHTML = ''; 
+
+        const itemsToRender = locationFilter === 'all'
+          ? itemsToDisplay
+          : itemsToDisplay.filter(item => 
+          item.location.toLowerCase().includes(locationFilter.toLowerCase())
+        );
+
+        if (itemsToRender.length === 0) {
+            itemsContainerFound.innerHTML = '<p class="text-center text-gray-500 py-10">Tidak ada item yang cocok dengan filter ini.</p>';
+            return;
+        }
+
+        itemsToRender.forEach(item => {
+            itemsContainerFound.innerHTML += createItemFound(item);
         });
     }
-    
+
+    function populateLocationFilter() {
+        if (!dropdown || typeof locations === 'undefined') return;
+        dropdown.innerHTML = ''; 
+        const allOption = document.createElement('a');
+        allOption.href = '#';
+        allOption.className = 'block px-4 py-3 text-gray-700 hover:bg-blue-50 font-semibold';
+        allOption.textContent = 'Tampilkan Semua Lokasi';
+        allOption.dataset.location = 'all';
+        dropdown.appendChild(allOption);
+        locations.forEach(loc => {
+            const option = document.createElement('a');
+            option.href = '#';
+            option.className = 'block px-4 py-3 text-gray-700 hover:bg-blue-50';
+            option.textContent = loc.name;
+            option.dataset.location = loc.name;
+            dropdown.appendChild(option);
+        });
+    }
+
+    if(filterBtn) {
+        filterBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle('hidden');
+        });
+    }
+    window.addEventListener('click', () => {
+        if (dropdown && !dropdown.classList.contains('hidden')) {
+            dropdown.classList.add('hidden');
+        }
+    });
+    if(dropdown) {
+        dropdown.addEventListener('click', (e) => {
+            e.preventDefault();
+            const selectedLocation = e.target.dataset.location;
+            if (selectedLocation) {
+                renderItems(selectedLocation);
+                filterLabel.textContent = selectedLocation === 'all' ? 'Filter by Location' : selectedLocation;
+                dropdown.classList.add('hidden');
+            }
+        });
+    }
+
+    populateLocationFilter();
+    renderItems();
+
     if (typeof NavbarLoader !== 'undefined') {
         const loader = new NavbarLoader({
           navbarPath: "../components/navbar.html",
@@ -62,6 +120,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           }
         });
-        loader.loadNavbarSimple();
+        loader.loadNavbar();
     }
 });

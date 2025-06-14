@@ -1,10 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Muat Navbar terlebih dahulu
     new NavbarLoader({ navbarPath: "../components/navbar.html", onLoad: () => {
         if (typeof FilotiNavbar !== "undefined") new FilotiNavbar();
-    }}).loadNavbarSimple();
+    }}).loadNavbar();
 
-    // Pastikan variabel global allItems dari data.js benar-benar ada
     if (typeof allItems === 'undefined') {
         console.error("Kesalahan: Variabel 'allItems' tidak ditemukan. Pastikan data.js sudah dimuat sebelum edit_item.js.");
         document.getElementById('edit-content').innerHTML = '<p class="text-red-500 text-center">Gagal memuat data sumber.</p>';
@@ -25,9 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const markDoneBtn = document.getElementById('mark-done-btn');
     const claimerForm = document.getElementById('claimer-form');
     const confirmDoneBtn = document.getElementById('confirm-done-btn');
-    const deleteBtn = document.getElementById('delete-btn'); // Ambil elemen delete di sini
+    const deleteBtn = document.getElementById('delete-btn');
 
-    // Populate form with existing data
     if (itemToEdit) {
         titleInput.value = itemToEdit.title;
         descriptionInput.value = itemToEdit.description;
